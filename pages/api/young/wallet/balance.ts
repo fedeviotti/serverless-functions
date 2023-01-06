@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     method: "POST",
     body: JSON.stringify(body),
     headers: {
-      "Content-Type:": "application/json",
+      "Content-Type": "application/json",
       apiKey: process.env.YOUNG_API_PUBLIC_KEY || "",
       hmac: getHmacFromObject(body),
     },
