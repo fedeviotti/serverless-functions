@@ -15,7 +15,7 @@ const getHmacFromObject = (data: Record<string, any>) => {
       queryString += "&";
     }
   }
-  const hash = HmacSHA512(queryString, process.env.NEXT_PUBLIC_YOUNG_API_PRIVATE_KEY || "");
+  const hash = HmacSHA512(queryString, process.env.YOUNG_API_PRIVATE_KEY || "");
   const hashString = hash.toString(Hex).toUpperCase();
   return hashString;
 };
@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     body: JSON.stringify(body),
     headers: {
       "Content-Type:": "application/json",
-      apiKey: process.env.NEXT_PUBLIC_YOUNG_API_PUBLIC_KEY || "",
+      apiKey: process.env.YOUNG_API_PUBLIC_KEY || "",
       hmac: getHmacFromObject(body),
     },
   });
