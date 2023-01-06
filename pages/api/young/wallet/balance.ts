@@ -2,6 +2,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import HmacSHA512 from "crypto-js/hmac-sha512";
 import Hex from "crypto-js/enc-hex";
 
+type Currency = {
+  symbol: string,
+  balance: number,
+  balanceInTrade: number,
+}
+
 const alphabeticalSort = (a: string, b: string) => a.localeCompare(b);
 
 // hmac header is the value returned by this function
@@ -20,7 +26,7 @@ const getHmacFromObject = (data: Record<string, any>) => {
   return hashString;
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Currency[]>) {
   const body = {
     timestamp: Math.floor(Date.now() / 1000),
     recvWindow: 100000,
@@ -34,6 +40,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       hmac: getHmacFromObject(body),
     },
   });
-  const result = await response.json();
+  const result = await response.json() as Currency[];
   res.status(200).json(result);
 }
