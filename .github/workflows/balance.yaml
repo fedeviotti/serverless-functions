@@ -24,4 +24,3 @@ jobs:
           body: "Cron job ran successfully"
           to: ${{ secrets.TO_EMAIL_USERNAME }}
           from: ${{ secrets.FROM_EMAIL_USERNAME }}
-          content_type: text/plain
