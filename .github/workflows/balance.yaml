@@ -1,4 +1,4 @@
-name: daily-cron
+name: daily-wallet-balance
 on:
   schedule:
     - cron: '0 1 * * *'
@@ -6,13 +6,13 @@ jobs:
   cron:
     runs-on: ubuntu-latest
     steps:
-#      - name: Call our API route
-#        env:
-#          API_SECRET_KEY: ${{ secrets.API_SECRET_KEY }}
-#        run: |
-#          curl --request POST \
-#          --url 'https://serverless-functions-kohl.vercel.app/api/young/wallet/balance' \
-#          --header 'Authorization: Bearer $env:API_SECRET_KEY'
+      - name: Call wallet balance API
+        env:
+          API_SECRET_KEY: ${{ secrets.API_SECRET_KEY }}
+        run: |
+          curl --request POST \
+          --url 'https://serverless-functions-kohl.vercel.app/api/young/wallet/balance' \
+          --header 'Authorization: Bearer $env:API_SECRET_KEY'
       - name: Send email
         uses: dawidd6/action-send-mail@v3.7.1
         with:
@@ -20,7 +20,7 @@ jobs:
           server_port: 465
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "Daily Cron Job"
-          body: "Cron job ran successfully"
+          subject: "Daily Wallet Balance"
+          body: "Cron job ran successfully ${{github.action}}"
           to: ${{ secrets.TO_EMAIL_USERNAME }}
           from: ${{ secrets.FROM_EMAIL_USERNAME }}
