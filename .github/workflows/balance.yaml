@@ -7,12 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call wallet balance API
-        env:
-          API_SECRET_KEY: ${{ secrets.API_SECRET_KEY }}
         run: |
           curl --request POST \
           --url 'https://serverless-functions-kohl.vercel.app/api/young/wallet/balance' \
-          --header 'Authorization: Bearer $env:API_SECRET_KEY'
+          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
       - name: Send email
         uses: dawidd6/action-send-mail@v3.7.1
         with:
