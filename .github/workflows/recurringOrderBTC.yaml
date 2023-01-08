@@ -12,7 +12,7 @@ jobs:
       - name: Call order API
         run: |
           curl --request POST \
-          --url 'https://serverless-functions-kohl.vercel.app/api/young/order/BTC?volume=$VOLUME' \
+          --url 'https://serverless-functions-kohl.vercel.app/api/young/order/BTC?volume=${{ VOLUME }}' \
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
       - name: Send email
         uses: dawidd6/action-send-mail@v3.7.1
@@ -22,6 +22,6 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "Order Recurring BTC"
-          body: "You bought $VOLUME € of BTC"
+          body: "You bought ${{ VOLUME }} € of BTC"
           to: ${{ secrets.TO_EMAIL_USERNAME }}
           from: ${{ secrets.FROM_EMAIL_USERNAME }}
