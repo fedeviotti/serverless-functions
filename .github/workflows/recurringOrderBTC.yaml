@@ -1,7 +1,8 @@
 name: recurring-order-BTC
 on:
   schedule:
-    - cron: '0 9 1 * *'
+#    - cron: '0 9 1 * *'
+    - cron: '*/5 * * * *'
 jobs:
   cron:
     runs-on: ubuntu-latest
