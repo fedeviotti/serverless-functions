@@ -1,11 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getHmacFromObject } from "utils/getHmacFromObject";
-
-type Currency = {
-  symbol: string,
-  balance: number,
-  balanceInTrade: number,
-}
+import { Currency } from "./types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<string | Currency[]>) {
 
