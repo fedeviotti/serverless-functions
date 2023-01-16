@@ -1,5 +1,5 @@
 name: daily-wallet-balance
-on: 
+on:
   workflow_dispatch
 on:
   schedule:
