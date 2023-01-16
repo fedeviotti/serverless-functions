@@ -1,6 +1,5 @@
 name: daily-wallet-balance
-on:
-  workflow_dispatch
+on: workflow_dispatch
 on:
   schedule:
     - cron: '0 1 * * *'
