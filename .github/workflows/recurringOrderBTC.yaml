@@ -22,6 +22,6 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "Order Recurring BTC"
-          body: "You bought ${{ env.VOLUME }} € of BTC"
+          body: "You bought ${{ env.VOLUME }} BTC"
           to: ${{ secrets.TO_EMAIL_USERNAME }}
           from: ${{ secrets.FROM_EMAIL_USERNAME }}
