@@ -7,7 +7,7 @@ jobs:
   cron:
     runs-on: ubuntu-latest
     env:
-      VOLUME: 12
+      VOLUME: 0.0007
     steps:
       - name: Call order API
         run: |
