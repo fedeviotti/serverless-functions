@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getHmacFromObject } from "utils/getHmacFromObject";
-import { OrderResponse } from "./types";
+import { OrderRequest, OrderResponse } from "./types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -13,14 +13,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const { currency, volume } = req.query;
 
-  const body = {
+  const body: OrderRequest = {
     timestamp: Math.floor(Date.now() / 1000),
     recvWindow: 100000,
-    trade: currency,
+    trade: currency as string,
     market: "EUR",
     side: "BUY",
     type: "MARKET",
-    volume
+    volume: Number(volume),
   };
   try {
     const response = await fetch("https://api.youngplatform.com/api/v3/placeOrder", {

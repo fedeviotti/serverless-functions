@@ -10,6 +10,16 @@ type Trade = {
   executionDate: string,
 }
 
+export type OrderRequest = {
+  timestamp: number,
+  recvWindow: number,
+  trade: string,
+  market: string,
+  side: string,
+  type: string,
+  volume: number,
+}
+
 export type OrderResponse = {
   orderID: number,
   cid: number,
