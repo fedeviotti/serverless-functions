@@ -8,8 +8,7 @@ jobs:
       - name: Call currencies API
         run: |
           curl --request POST \
-          --url 'https://serverless-functions-kohl.vercel.app/api/young/currencies/currencies' \
-          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
+          --url 'https://serverless-functions-kohl.vercel.app/api/young/currencies/currencies'
       - name: Send email
         uses: dawidd6/action-send-mail@v3.7.1
         with:
