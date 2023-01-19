@@ -9,7 +9,7 @@ jobs:
         run: |
           curl --request POST \
           --url 'https://serverless-functions-kohl.vercel.app/api/young/currencies/currencies' \
-          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
+          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}' -o response.json
       - name: Send email
         uses: dawidd6/action-send-mail@v3.7.1
         with:
@@ -19,5 +19,6 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "Daily Currencies"
           body: "Cron job ran successfully"
+          html_body: file://response.json
           to: ${{ secrets.TO_EMAIL_USERNAME }}
           from: ${{ secrets.FROM_EMAIL_USERNAME }}
