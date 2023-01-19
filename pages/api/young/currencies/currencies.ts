@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Currency } from "./types";
+// import { Currency } from "./types";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<string | Currency[]>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method !== 'POST') {
     return res.status(400).send("Method not allowed");
@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const response = await fetch("https://api.youngplatform.com/api/v3/currencies", {
     method: "GET",
   });
-  const result = await response.json() as Currency[];
-  res.status(200).json(result);
+  // const result = await response.json() as Currency[];
+  res.status(200).json(response);
 
 }
