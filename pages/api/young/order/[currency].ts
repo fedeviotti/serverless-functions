@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import nodemailer from "nodemailer";
 import { getHmacFromObject } from "utils/getHmacFromObject";
 import { OrderRequest, OrderResponse } from "./types";
-import nodemailer from "nodemailer";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<{ error: string} | OrderResponse>) {
   if (req.method !== 'POST') {
