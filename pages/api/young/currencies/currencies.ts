@@ -1,5 +1,5 @@
-import nodemailer from "nodemailer";
 import type { NextApiRequest, NextApiResponse } from "next";
+import nodemailer from "nodemailer";
 import { Currency } from "./types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<{error: string} | Currency[]>) {
