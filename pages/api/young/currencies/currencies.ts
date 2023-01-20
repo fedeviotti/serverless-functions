@@ -24,6 +24,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
   res.status(200).json(result);
 
+  const currenciesRowsHtml = result.map((currency) => {
+    return `
+    <tr>
+      <td>${currency.name}</td>
+      <td>${currency.symbol}</td>
+      <td>${currency.price}</td>
+    </tr>`;
+  }).join("");
+
+  const bodyHtml = `<h1>Currencies</h1> \n 
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Symbol</th>
+        <th>Price</th>
+      </tr>
+      ${currenciesRowsHtml}
+    </table>`;
+
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -34,17 +53,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     },
   });
 
-  // FIXME: add EMAIL and APP_PASSWORD to vercel env variables
   // FIXME: remove dawidd6/action-send-mail and github secrets
 
-  // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <fedeviotti@gmail.com>', // sender address
-    to: "fedeviotti@gmail.com, koine.eirene@gmail.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
+    from: '"Currencies Service" <fedeviotti@gmail.com>',
+    to: "fedeviotti@gmail.com",
+    subject: "Currencies",
+    text: "Currencies list",
+    html: bodyHtml,
   });
 
-  console.log("Message sent: %s", info.messageId);
 }
