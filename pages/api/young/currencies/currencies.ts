@@ -53,9 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     },
   });
 
-  // FIXME: remove dawidd6/action-send-mail and github secrets
-
-  let info = await transporter.sendMail({
+  await transporter.sendMail({
     from: '"Currencies Service" <fedeviotti@gmail.com>',
     to: "fedeviotti@gmail.com",
     subject: "Currencies",
