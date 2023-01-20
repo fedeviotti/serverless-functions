@@ -57,7 +57,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     <li>Euro spent ${result.amount}.</li>
     <li>Fees spent ${result.amount}.</li>
     <li>Brokerage spent ${result.brokerage}.</li>
-  </ul> \n`;
+  </ul>`;
 
   await transporter.sendMail({
     from: `"Recurring Service" ${process.env.EMAIL}`,
