@@ -34,6 +34,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     },
   });
 
+  // FIXME: add EMAIL and APP_PASSWORD to vercel env variables
+  // FIXME: remove dawidd6/action-send-mail and github secrets
+
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"Fred Foo 👻" <fedeviotti@gmail.com>', // sender address
@@ -44,5 +47,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   });
 
   console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 }
