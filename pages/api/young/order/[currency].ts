@@ -3,13 +3,13 @@ import { getHmacFromObject } from "utils/getHmacFromObject";
 import { OrderRequest, OrderResponse } from "./types";
 import nodemailer from "nodemailer";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<{ error: string} | OrderResponse>) {
   if (req.method !== 'POST') {
-    return res.status(400).send("Method not allowed");
+    return res.status(400).send({ error: "Method not allowed" });
   }
 
   if(req.headers.authorization !== `Bearer ${process.env.API_SECRET_KEY}`) {
-    return res.status(401).send("Unauthorized");
+    return res.status(401).send({ error: "Unauthorized" });
   }
 
   const { currency, volume } = req.query;
