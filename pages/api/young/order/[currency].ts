@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getHmacFromObject } from "utils/getHmacFromObject";
 import { OrderRequest, OrderResponse } from "./types";
+import nodemailer from "nodemailer";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -22,6 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     type: "MARKET",
     volume: Number(volume),
   };
+  let result: OrderResponse;
   try {
     const response = await fetch("https://api.youngplatform.com/api/v3/placeOrder", {
       method: "POST",
@@ -32,10 +34,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         hmac: getHmacFromObject(body),
       },
     });
-    const result = await response.json() as OrderResponse;
-    res.status(200).json(result);
+    result = await response.json() as OrderResponse;
   } catch (error: any) {
-    res.status(500).json({ error: `An error occurred: ${error.message}` })
+    res.status(500).json({ error: `An error occurred: ${error.message}` });
+    return;
   }
+  res.status(200).json(result);
+
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.APP_PASSWORD,
+    },
+  });
+
+  const bodyHtml = `<h1>Recurring order</h1> \n
+  <ul>
+    <li>Order placed for ${result.volume} ${result.baseCurrency}.</li>
+    <li>Euro spent ${result.amount}.</li>
+    <li>Fees spent ${result.amount}.</li>
+    <li>Brokerage spent ${result.brokerage}.</li>
+  </ul> \n`;
+
+  await transporter.sendMail({
+    from: `"Recurring Service" ${process.env.EMAIL}`,
+    to: process.env.EMAIL,
+    subject: `Recurring order`,
+    text: `Order placed for ${result.volume} ${result.baseCurrency}.`,
+    html: bodyHtml,
+  });
 }
 
