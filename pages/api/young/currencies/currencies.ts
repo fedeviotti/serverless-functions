@@ -56,7 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   await transporter.sendMail({
     from: `"Currencies Service" ${process.env.EMAIL}`,
     to: process.env.EMAIL,
-    subject: "Currencies",
+    subject: "Currencies list",
     text: "Currencies list",
     html: bodyHtml,
   });
