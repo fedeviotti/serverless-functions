@@ -47,7 +47,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     host: "smtp.gmail.com",
     port: 465,
     secure: true,
-    greetingTimeout: 60000,
     auth: {
       user: process.env.EMAIL,
       pass: process.env.APP_PASSWORD,
