@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import nodemailer from "nodemailer";
 import { getHmacFromObject } from "utils/getHmacFromObject";
 import { Currency } from "./types";
 
@@ -30,49 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
     result = await response.json() as Currency[];
   } catch (error: any) {
-    res.status(500).json({ error: `An error occurred: ${error.message}` });
-    return;
+    return res.status(500).json({ error: `An error occurred: ${error.message}` });
   }
-  res.status(200).json(result);
-
-  let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    greetingTimeout: 60000,
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.APP_PASSWORD,
-    },
-  });
-
-  const currenciesRowsHtml = result
-    .filter((currency) => currency.balance > 0)
-    .map((currency) => {
-    return `
-    <tr>
-      <td>${currency.symbol}</td>
-      <td>${currency.balance}</td>
-      <td>${currency.balanceInTrade}</td>
-    </tr>`;
-  }).join("");
-
-  const bodyHtml = `<h1>Balance</h1> \n
-  <table>
-    <tr>
-      <th>Symbol</th>
-      <th>Balance</th>
-      <th>Balance in trade</th>
-    </tr>
-    ${currenciesRowsHtml}
-  </table>`;
-
-  await transporter.sendMail({
-    from: `"Balance Service" ${process.env.EMAIL}`,
-    to: process.env.EMAIL,
-    subject: "Balance",
-    text: "Balance",
-    html: bodyHtml,
-  });
-
+  return res.status(200).json(result);
 }
