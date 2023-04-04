@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import nodemailer from "nodemailer";
 import { getHmacFromObject } from "utils/getHmacFromObject";
 import { OrderRequest, OrderResponse } from "./types";
 
@@ -36,36 +35,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
     result = await response.json() as OrderResponse;
   } catch (error: any) {
-    res.status(500).json({ error: `An error occurred: ${error.message}` });
-    return;
+    return res.status(500).json({ error: `An error occurred: ${error.message}` });
   }
-  res.status(200).json(result);
-
-  let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    greetingTimeout: 60000,
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.APP_PASSWORD,
-    },
-  });
-
-  const bodyHtml = `<h1>Recurring order</h1> \n
-  <ul>
-    <li>Order placed for ${result.volume} ${result.baseCurrency}.</li>
-    <li>Euro spent ${result.amount}.</li>
-    <li>Fees spent ${result.amount}.</li>
-    <li>Brokerage spent ${result.brokerage}.</li>
-  </ul>`;
-
-  await transporter.sendMail({
-    from: `"Recurring Service" ${process.env.EMAIL}`,
-    to: process.env.EMAIL,
-    subject: `Recurring order`,
-    text: `Order placed for ${result.volume} ${result.baseCurrency}.`,
-    html: bodyHtml,
-  });
+  return res.status(200).json(result);
 }
 
