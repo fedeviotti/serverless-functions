@@ -11,3 +11,21 @@ jobs:
           curl --request POST \
           --url 'https://serverless-functions-kohl.vercel.app/api/young/wallet/balance' \
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_APP_PASSWORD}}
+          # Required mail subject:
+          subject: Daily balance job run successfully
+          # Required recipients' addresses:
+          to: ${{secrets.MAIL_RECIPIENT}}
+          # Required sender full name (address can be skipped):
+          from: Federico Viotti # <user@example.com>
+          # Optional plain body:
+          body: Daily balance job of ${{github.repository}} completed successfully!
+          # Optional unsigned/invalid certificates allowance:
+          ignore_cert: true
