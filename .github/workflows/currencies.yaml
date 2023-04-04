@@ -19,12 +19,12 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_APP_PASSWORD}}
           # Required mail subject:
-          subject: Github Actions job result
+          subject: Daily currencies job run successfully
           # Required recipients' addresses:
           to: ${{secrets.MAIL_RECIPIENT}}
           # Required sender full name (address can be skipped):
           from: Federico Viotti # <user@example.com>
           # Optional plain body:
-          body: Build job of ${{github.repository}} completed successfully!
+          body: Daily currencies job of ${{github.repository}} completed successfully!
           # Optional unsigned/invalid certificates allowance:
           ignore_cert: true
