@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import nodemailer from "nodemailer";
 import { Currency } from "./types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<{error: string} | Currency[]>) {
@@ -19,47 +18,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
     result = await response.json() as Currency[];
   } catch (error: any) {
-    res.status(500).json({ error: error.message });
-    return;
+    return res.status(500).json({ error: error.message });
   }
-  res.status(200).json(result);
-
-  const currenciesRowsHtml = result.map((currency) => {
-    return `
-    <tr>
-      <td>${currency.name}</td>
-      <td>${currency.symbol}</td>
-      <td>${currency.price}</td>
-    </tr>`;
-  }).join("");
-
-  const bodyHtml = `<h1>Currencies</h1> \n 
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Symbol</th>
-        <th>Price</th>
-      </tr>
-      ${currenciesRowsHtml}
-    </table>`;
-
-  let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    greetingTimeout: 60000,
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.APP_PASSWORD,
-    },
-  });
-
-  await transporter.sendMail({
-    from: `"Currencies Service" ${process.env.EMAIL}`,
-    to: process.env.EMAIL,
-    subject: "Currencies list",
-    text: "Currencies list",
-    html: bodyHtml,
-  });
+  return res.status(200).json(result);
 
 }
