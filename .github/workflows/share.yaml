@@ -14,7 +14,7 @@ jobs:
           --url 'https://serverless-functions-kohl.vercel.app/api/young/currencies/currencies' \
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}' > currencies.txt
       - name: Upload math result for job 1
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: currencies
           path: currencies.txt
